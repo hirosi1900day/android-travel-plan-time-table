@@ -7,10 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentStateAdapter(fm) {
 
-    var travelPlanId = ""
-
-
-
     val fragments = listOf(HomeFragment(), MessageFragment(), GiftFragment(), MemberFragment())
 
 

@@ -65,9 +65,14 @@ class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
                     if (position % 2 == 0) android.R.color.white else android.R.color.darker_gray))
             }
             // dateTimeViewのtextプロパティに代入されたオブジェクトのnameプロパティを代入
-            dateTimeView.text = data.time
-            //タイムテーブルの内容を書き込む
-            bodyTextHomeView.text = data.body
+            if(data.time != null && data.body != null) {
+                dateTimeView.text = data.time
+                //タイムテーブルの内容を書き込む
+                bodyTextHomeView.text = data.body!!
+            }else {
+                dateTimeView.text = ""
+                bodyTextHomeView.text = ""
+            }
         }
     }
 }

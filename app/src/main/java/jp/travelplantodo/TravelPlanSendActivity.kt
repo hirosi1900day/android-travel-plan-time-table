@@ -69,7 +69,7 @@ class TravelPlanSendActivity : AppCompatActivity(), View.OnClickListener {
            dataBaseReference.collection(TravelPlanIndexPath).document(travelPlanId).set(data)
                .addOnCompleteListener{
                    dataBaseReference.collection(UsersPATH).document(uid)
-                       .collection(Member).document(travelPlanId).set(memberData) .addOnSuccessListener {
+                       .collection(MemberPATH).document(travelPlanId).set(memberData) .addOnSuccessListener {
                        finish()
                        Log.d("確認","送信完了members")
                    }
