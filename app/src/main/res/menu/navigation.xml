@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:title="home" />
+
+    <item
+        android:id="@+id/navigation_message"
+        android:title="message" />
+
+    <item
+        android:id="@+id/navigation_member"
+        android:title="memeber" />
+
+    <item
+        android:id="@+id/navigation_gift"
+        android:title="gift" />
+
+
+</menu>
