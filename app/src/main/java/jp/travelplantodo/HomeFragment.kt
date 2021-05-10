@@ -1,6 +1,5 @@
 package jp.travelplantodo
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,27 +16,27 @@ import com.google.firebase.firestore.FirebaseFirestore
 import jp.travelplantodoimport.HomeTableAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment: Fragment(), View.OnClickListener {
+class HomeFragment: Fragment(), View.OnClickListener, FragmentCallBack{
 
 
     private lateinit var mTimeTableArrayList: ArrayList<TimeTable>
     private val homeTableAdapter by lazy { HomeTableAdapter(requireContext()) }
-    private val travelPlanId = ""
+
+
+    var travelPlanId = ""
 
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list_home, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
         // fragment_api.xmlが反映されたViewを作成して、returnします
-        if (getArguments() != null) {
-            travelPlanId= getArguments()?.getString(TravelPlanId).toString()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // ここから初期化処理を行う
         // RecyclerViewの初期化
+
         recyclerViewHome.apply {
             adapter = homeTableAdapter
             layoutManager = LinearLayoutManager(requireContext()) // 一列ずつ表示
@@ -50,32 +49,25 @@ class HomeFragment: Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (view == fabHome) {
+//            val firstFragment = FirstFragment()
+//            val fragmentTransaction = FragmentManager().beginTransaction()
+//            fragmentTransaction.add(R.id.fragment_container, firstFragment)
+//            fragmentTransaction.commit()
 
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        // フラグメントマネージャーの取得
-        val manager: FragmentManager? = fragmentManager // アクティビティではgetSupportFragmentManager()?
-        // フラグメントトランザクションの開始
-        val transaction: FragmentTransaction = manager!!.beginTransaction()
-        // レイアウトをfragmentに置き換え（追加）
-        transaction.replace(R.id.homeFragment, fragment)
-        // 置き換えのトランザクションをバックスタックに保存する
-        transaction.addToBackStack(null)
-        // フラグメントトランザクションをコミット
-        transaction.commit()
-    }
 
 
     private fun updateData() {
 
         var mDatabaseReference = FirebaseFirestore.getInstance()
-        mDatabaseReference.collection(travelPlanId).addSnapshotListener { snapshots, e ->
+
+        if(travelPlanId == "") return
+        mDatabaseReference.collection(TimetablePATH).document(travelPlanId).collection("content").addSnapshotListener { snapshots, e ->
             if (e != null) {
                 return@addSnapshotListener
             }
-
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
@@ -102,6 +94,10 @@ class HomeFragment: Fragment(), View.OnClickListener {
 
     companion object {
         private const val COUNT = 20 // 1回のAPIで取得する件数
+    }
+
+    override fun getTravelPlanId(getTravelPlanId: String) {
+        travelPlanId = getTravelPlanId
     }
 
 

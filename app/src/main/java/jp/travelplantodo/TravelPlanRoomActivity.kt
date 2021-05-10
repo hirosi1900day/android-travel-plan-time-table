@@ -2,18 +2,21 @@ package jp.travelplantodo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat.apply
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_travel_plan_room.*
 
-const val TravelPlanId = "jp.travelplantodo.TravelPlanId"
 
 class TravelPlanRoomActivity : AppCompatActivity() {
 
 
+    
     private val travelPlanRoomFragmentStatePagerAdapter by lazy { TravelPlanRoomFragmentStatePagerAdapter(
-        this
-    ) }
+    this) }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -27,14 +30,10 @@ class TravelPlanRoomActivity : AppCompatActivity() {
         }
 
         var travelPlanId = intent.getStringExtra(EXTRA_TRAVEL_PLAN_ID)
-
         if (travelPlanId != null) {
-            val bundle = Bundle()
-            bundle.putString(TravelPlanId,travelPlanId)
-            val homeFragment = HomeFragment()
-            homeFragment.setArguments(bundle)
-
+            travelPlanRoomFragmentStatePagerAdapter.travelPlanId = travelPlanId
         }
+
 
         // BottomNavigationの設定
         bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -43,9 +42,9 @@ class TravelPlanRoomActivity : AppCompatActivity() {
                 R.id.navigation_message -> 1
                 R.id.navigation_member -> 2
                 R.id.navigation_gift -> 3
-
                 else -> 0
             }
+
             return@OnNavigationItemSelectedListener true
         })
     }
