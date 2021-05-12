@@ -9,7 +9,6 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import jp.travelplantodoimport.TravelPlanAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -88,10 +87,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getTravelPlanForFirebase(uid: String) {
 
-
-
         mDatabaseReference = FirebaseFirestore.getInstance()
-        mDatabaseReference.collection(UsersPATH).document(uid).collection(MemberPATH).addSnapshotListener { snapshots, e ->
+        mDatabaseReference.collection(UsersPATH).document(uid).collection(TravelPlanMemberPATH).addSnapshotListener { snapshots, e ->
             if (e != null) {
                 return@addSnapshotListener
             }
@@ -110,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                                 val body = data!!["body"] as String
                                 val name = data!!["name"] as String
                                 val travelPlanId = data!!["travelPlanId"] as String
-
                                 val travelPlan = TravelPlan(title ,body,name,travelPlanId)
                                 mTravelPlanArrayList.add(travelPlan)
 

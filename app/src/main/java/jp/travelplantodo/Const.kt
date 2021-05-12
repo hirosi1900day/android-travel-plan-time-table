@@ -18,7 +18,10 @@ const val GroupPATH = "groups"
 const val NameKEY = "name"
 
 //memberId
-const val MemberPATH = "members"
+const val TravelPlanMemberPATH = "travelPlanMembers"
+
+//travelRoomMemberの情報
+const val TravelRoomMemberPATH = "travelRoomMember"
 
 //タイムテーブル
 const val TimetablePATH = "timeTable"

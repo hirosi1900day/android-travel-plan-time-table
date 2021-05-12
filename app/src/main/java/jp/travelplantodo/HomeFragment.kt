@@ -8,20 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import jp.travelplantodoimport.HomeTableAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment: Fragment(), View.OnClickListener, FragmentCallBack{
+class HomeFragment: Fragment(), View.OnClickListener{
 
 
     private lateinit var mTimeTableArrayList: ArrayList<TimeTable>
     private val homeTableAdapter by lazy { HomeTableAdapter(requireContext()) }
-
 
     var travelPlanId = ""
 
@@ -57,7 +54,10 @@ class HomeFragment: Fragment(), View.OnClickListener, FragmentCallBack{
         }
     }
 
-
+    //fragmentAdapterよりtravelPlanIdを取得する
+   fun getPlanId(travelPlanIdFromFragmentStatePagerAdapter: String) {
+       travelPlanId = travelPlanIdFromFragmentStatePagerAdapter
+   }
 
     private fun updateData() {
 
@@ -94,10 +94,6 @@ class HomeFragment: Fragment(), View.OnClickListener, FragmentCallBack{
 
     companion object {
         private const val COUNT = 20 // 1回のAPIで取得する件数
-    }
-
-    override fun getTravelPlanId(getTravelPlanId: String) {
-        travelPlanId = getTravelPlanId
     }
 
 

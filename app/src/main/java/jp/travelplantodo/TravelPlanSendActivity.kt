@@ -55,7 +55,6 @@ class TravelPlanSendActivity : AppCompatActivity(), View.OnClickListener {
 
            val travelPlanId = randomString(20)
 
-
            data["title"] = title
            data["body"] = body
            data["name"] = name!!
@@ -66,13 +65,24 @@ class TravelPlanSendActivity : AppCompatActivity(), View.OnClickListener {
            memberData["name"] = name!!
            memberData["travelPlanId"] = travelPlanId
 
+           val TravelPlanRoomMemberData = HashMap<String, String>()
+           TravelPlanRoomMemberData["uid"] = uid
+           TravelPlanRoomMemberData["name"] = name!!
+
+
            dataBaseReference.collection(TravelPlanIndexPath).document(travelPlanId).set(data)
                .addOnCompleteListener{
+
+                   //トラベルルームにmember情報を保存する
+                   dataBaseReference.collection(TravelPlanIndexPath).document(travelPlanId).collection(
+                       TravelRoomMemberPATH).document(uid).set(TravelPlanRoomMemberData)
+
+                   //uidにトラベルプランの情報を保存する
                    dataBaseReference.collection(UsersPATH).document(uid)
-                       .collection(MemberPATH).document(travelPlanId).set(memberData) .addOnSuccessListener {
-                       finish()
-                       Log.d("確認","送信完了members")
-                   }
+                       .collection(TravelPlanMemberPATH).document(travelPlanId).set(memberData) .addOnSuccessListener {
+                           finish()
+                           Log.d("確認","送信完了members")
+                       }
                        .addOnFailureListener {
                            Snackbar.make(
                                findViewById(android.R.id.content),
@@ -99,6 +109,7 @@ class TravelPlanSendActivity : AppCompatActivity(), View.OnClickListener {
        }
     }
 
+    //travelPlanId作成のため任意な文字列を生成する。
     private fun randomString(StrLength: Int): String {
         val source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 

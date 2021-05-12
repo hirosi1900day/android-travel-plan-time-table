@@ -1,5 +1,4 @@
 package jp.travelplantodo
-
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import jp.travelplantodo.NameKEY
+import jp.travelplantodo.R
+import jp.travelplantodo.UsersPATH
 import kotlinx.android.synthetic.main.activity_login.*
 
 
