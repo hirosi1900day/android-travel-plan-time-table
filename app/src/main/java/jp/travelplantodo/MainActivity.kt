@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
         //fabをクリックした時の処理
         fab.setOnClickListener { view ->
+            Log.d("ログイン確認","${user!!.uid}")
             if (user == null) {
                 // ログインしていなければログイン画面に遷移させる
                 val intent = Intent(applicationContext, LoginActivity::class.java)

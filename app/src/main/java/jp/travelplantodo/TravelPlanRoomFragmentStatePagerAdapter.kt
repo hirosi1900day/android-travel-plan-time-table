@@ -3,6 +3,7 @@ package jp.travelplantodo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import kotlinx.android.synthetic.main.activity_travel_plan_room.*
 
 
 class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentStateAdapter(fm){
@@ -11,10 +12,7 @@ class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentSta
 
     var travelPlanId = ""
 
-
-
-
-    val fragments = listOf(HomeFragment(), MessageFragment(), GiftFragment(), MemberFragment())
+    val fragments = listOf(HomeFragment(), MessageFragment(), MemberFragment(), GiftFragment())
 
 
     override fun getItemCount(): Int {
@@ -22,20 +20,38 @@ class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentSta
     }
 
     override fun createFragment(position: Int): Fragment {
+//           HomeFragment().getPlanId(travelPlanId)
+//           MessageFragment().getPlanId(travelPlanId)
+//           MemberFragment().getPlanId(travelPlanId)
 
-        when(position){
-            0 -> HomeFragment().getPlanId(travelPlanId)
-            1 -> MessageFragment().getPlanId(travelPlanId)
-            2 -> true
-            3 -> MemberFragment().getPlanId(travelPlanId)
+         when (position) {
+            0 -> {
+                var fragment = HomeFragment()
+                fragment.getPlanId(travelPlanId)
+                return fragment
+            }
+            1 -> {
+                var fragment = MessageFragment()
+                fragment.getPlanId(travelPlanId)
+                return fragment
+            }
+            2 -> {
+                var fragment = MemberFragment()
+                fragment.getPlanId(travelPlanId)
+                return fragment
+            }
+
+            3 -> {
+                var fragment = GiftFragment()
+                fragment.getPlanId(travelPlanId)
+                return fragment
+            }
+            else -> {
+                var fragment = HomeFragment()
+                fragment.getPlanId(travelPlanId)
+                return fragment
+            }
         }
 
-
-
-        return fragments[position]
     }
-
-
-
-
 }

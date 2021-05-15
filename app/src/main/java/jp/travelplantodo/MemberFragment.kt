@@ -13,14 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_member.*
 import kotlinx.android.synthetic.main.list_memeber.*
 
 class MemberFragment:Fragment() {
 
     private lateinit var mMemberArrayList: ArrayList<Member>
     private val memberAdapter by lazy { MemberAdapter(requireContext()) }
-    var travelPlanId = ""
+    lateinit var travelPlanId: String
     private val handler = Handler(Looper.getMainLooper())
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,26 +47,34 @@ class MemberFragment:Fragment() {
 
         mMemberArrayList = ArrayList<Member>()
         updateData()
+//        Log.d("確認travelPlanId","${travelPlanId}")
     }
 
     private fun updateData() {
         var mDatabaseReference = FirebaseFirestore.getInstance()
-        if(travelPlanId == "") return
+//        if(travelPlanId == "") {
+//            return}
+
+        Log.d("確認","${travelPlanId}")
+        Log.d("確認","確認")
+
         mDatabaseReference.collection(TravelPlanIndexPath).document(travelPlanId).collection(
-            TravelRoomMemberPATH
-        ).addSnapshotListener { snapshots, e ->
+            TravelRoomMemberPATH).addSnapshotListener { snapshots, e ->
             if (e != null) {
+
                 return@addSnapshotListener
             }
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
                         val data = dc.document.data as Map<*, *>?
+                        Log.d("確認memberFragment","${data}")
                         val name = data!!["name"] as String
                         val uid = data!!["uid"] as String
 
                         val TravelRoomMember = Member(name, uid)
                         mMemberArrayList.add(TravelRoomMember)
+                        Log.d("確認mMemberArrayList","${mMemberArrayList}")
                     }
                     DocumentChange.Type.MODIFIED -> Log.d("確認", "Modified city: ${dc.document.data}")
                     DocumentChange.Type.REMOVED -> Log.d("確認", "Removed city: ${dc.document.data}")
@@ -83,5 +94,6 @@ class MemberFragment:Fragment() {
     fun getPlanId(travelPlanIdFromFragmentStatePagerAdapter: String) {
         travelPlanId = travelPlanIdFromFragmentStatePagerAdapter
     }
+
 
 }

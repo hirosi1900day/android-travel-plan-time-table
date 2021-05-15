@@ -1,5 +1,6 @@
 package jp.travelplantodo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -51,7 +52,6 @@ class SettingActivity : AppCompatActivity() {
                 val editor = sp2.edit()
                 editor.putString(NameKEY, name)
                 editor.commit()
-
                 Snackbar.make(v, getString(R.string.change_disp_name), Snackbar.LENGTH_LONG).show()
             }
         }

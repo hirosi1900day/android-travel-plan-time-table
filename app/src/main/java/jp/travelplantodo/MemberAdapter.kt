@@ -24,13 +24,11 @@ class MemberAdapter(private val context: Context): RecyclerView.Adapter<Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         // ViewHolderを継承したApiItemViewHolderオブジェクトを生成し戻す
-        return MemberViewHolder(LayoutInflater.from(context).inflate(R.layout.list_home, parent, false))
+        return MemberViewHolder(LayoutInflater.from(context).inflate(R.layout.list_memeber, parent, false))
     }
 
     // ViewHolderを継承したApiItemViewHolderクラスの定義
     class MemberViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        // レイアウトファイルからidがrootViewのConstraintLayoutオブジェクトを取得し、代入
-        val rootView: ConstraintLayout = view.findViewById(R.id.listMember)
         // レイアウトファイルからidがnameTextViewのCTextViewオブジェクトを取得し、代入
         val nameView: TextView = view.findViewById(R.id.nameView)
 
@@ -39,7 +37,7 @@ class MemberAdapter(private val context: Context): RecyclerView.Adapter<Recycler
 
     override fun getItemCount(): Int {
         // itemsプロパティに格納されている要素数を返す
-        return this.items.size
+        return items.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

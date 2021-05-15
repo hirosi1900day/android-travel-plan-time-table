@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">TravelPlanTodo</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -48,4 +49,29 @@
     <string name="travel_plan_message">内容を入力してください</string>
     <string name="get_image">画像を取得</string>
     <string name="send_error_message">投稿に失敗しました</string>
+
+
+    <!-- homeFragment TIMETable文字列 -->
+    <string name="time_tabel_label">時間</string>
+    <string name="time_tabel_contents">内容</string>
+    <string name="time_tabel_Button_label">投稿</string>
+
+    <string name="time_send_title">作成</string>
+    <string name="input_time">タイトルを入力してください</string>
+    <string name="time_table_message">内容を入力してください</string>
+    <string name="time_table_send_error_message">投稿に失敗しました</string>
+    <string name="time_table_send_success_message">投稿に成功しました</string>
+
+    <!-- giftFragment TIMETable文字列 -->
+    <string name="gift_store_name_label">店舗名</string>
+    <string name="gift_name">購入したいおみあげ</string>
+    <string name="gift_Button_label">投稿</string>
+
+    <string name="gift_send_title">作成</string>
+    <string name="input_gift">タイトルを入力してください</string>
+    <string name="gift_message">内容を入力してください</string>
+    <string name="gift_send_error_message">投稿に失敗しました</string>
+    <string name="gift_send_success_message">投稿に成功しました</string>
+
+
 </resources>
