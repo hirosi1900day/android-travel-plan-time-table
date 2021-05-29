@@ -1,25 +1,25 @@
-package jp.travelplantodo
+package jp.travelplantodo.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import jp.travelplantodo.EXTRA_TRAVEL_PLAN_ID
+import jp.travelplantodo.R
+import jp.travelplantodo.TravelPlanRoomFragmentStatePagerAdapter
 import kotlinx.android.synthetic.main.activity_travel_plan_room.*
 
 
 class TravelPlanRoomActivity : AppCompatActivity() {
 
-
-    
     private val travelPlanRoomFragmentStatePagerAdapter by lazy { TravelPlanRoomFragmentStatePagerAdapter(
     this) }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_travel_plan_room)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewPager2.apply {
             adapter = travelPlanRoomFragmentStatePagerAdapter
@@ -32,7 +32,6 @@ class TravelPlanRoomActivity : AppCompatActivity() {
             travelPlanRoomFragmentStatePagerAdapter.travelPlanId = travelPlanId
         }
 
-
         // BottomNavigationの設定
         bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             viewPager2.currentItem = when (item.itemId) {
@@ -40,10 +39,15 @@ class TravelPlanRoomActivity : AppCompatActivity() {
                 R.id.navigation_message -> 1
                 R.id.navigation_member -> 2
                 R.id.navigation_gift -> 3
+                R.id.navigation_setting -> 4
                 else -> 0
             }
-
             return@OnNavigationItemSelectedListener true
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

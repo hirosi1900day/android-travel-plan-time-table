@@ -1,13 +1,18 @@
-package jp.travelplantodo
+package jp.travelplantodo.adapter
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
-import jp.travelplantodo.MainActivity
 import jp.travelplantodo.R
-import jp.travelplantodo.TravelPlan
+import jp.travelplantodo.MainActivity
+import jp.travelplantodo.model.TravelPlan
+import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.list_taravelplan.view.*
 
 
@@ -45,6 +50,16 @@ class TravelPlanAdapter(context: MainActivity): BaseAdapter(){
 
         val nameText = convertView.bodyTextView as TextView
         nameText.text = mTravelPlanArrayList[position].body
+
+        val travelListImageView = convertView.travelListImageView as ImageView
+        if (mTravelPlanArrayList[position].image != "") {
+            val imageString = mTravelPlanArrayList[position].image
+            val bytes = Base64.decode(imageString, Base64.DEFAULT)
+            val image =
+                BitmapFactory.decodeByteArray(bytes, 0, bytes!!.size)
+                    .copy(Bitmap.Config.ARGB_8888, true)
+            travelListImageView.setImageBitmap(image)
+        }
 
         return convertView
     }

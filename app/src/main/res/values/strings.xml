@@ -11,6 +11,13 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <!-- ドロワー・メニュー用文字列 -->
+    <string name="select_label">選択</string>
+    <string name="menu_setting_label">設定</string>
+    <string name="menu_addingApplication_label">友達追加申請一覧</string>
+    <string name="menu_good_frend_label">親しい友達</string>
+
+
     <!-- ログイン画面用文字列 -->
     <string name="login_email_hint">メールアドレス</string>
     <string name="login_pass_hint">パスワード（6文字以上）</string>
@@ -25,11 +32,15 @@
     <!-- 設定画面用文字列 -->
     <string name="settings_titile">設定</string>
     <string name="change_name_hint">@string/login_name_hint</string>
+    <string name="name_text">名前を入力してください</string>
+    <string name="id_text">マイID</string>
+    <string name="id_error_text">IDは10文字以上で入力してください</string>
     <string name="menu_change_button_label">変更</string>
     <string name="menu_logout_label">ログアウト</string>
 
     <string name="no_login_user">ログインしていません</string>
-    <string name="change_disp_name">表示名を変更しました</string>
+    <string name="change_disp_name">変更しました</string>
+    <string name="change_disp_myid">変更しました</string>
     <string name="logout_complete_message">ログアウトしました</string>
 
     <!-- ドロワー・メニュー用文字列 -->
@@ -72,6 +83,20 @@
     <string name="gift_message">内容を入力してください</string>
     <string name="gift_send_error_message">投稿に失敗しました</string>
     <string name="gift_send_success_message">投稿に成功しました</string>
+
+    <!-- messageFragment TIMETable文字列 -->
+    <string name="message_send_error_message">メッセージの送信に失敗しました</string>
+
+    <!-- settingFragment TIMETable文字列 -->
+    <string name="travel_plan_title_setting">旅行プランのタイトルを入力してください</string>
+    <string name="travel_plan_content_setting">旅行プランの内容を入力してください</string>
+
+
+    <!-- MemberSendActivity文字列 -->
+    <string name="member_send_error_message">IDを入力してください</string>
+    <string name="member_send_error">追加申請に失敗しました</string>
+    <string name="member_send_success">追加申請に成功しました</string>
+    <string name="good_member_button_label">親しい友もだちから追加する</string>
 
 
 </resources>

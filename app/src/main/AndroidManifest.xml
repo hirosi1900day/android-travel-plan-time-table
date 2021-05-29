@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.travelplantodo">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,12 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GiftSendActivity"></activity>
-        <activity android:name=".TimetableSendActivity" />
-        <activity android:name=".TravelPlanRoomActivity" />
-        <activity android:name=".TravelPlanSendActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".activity.GoodMemberActivity"></activity>
+        <activity android:name=".activity.MemberAddingActivity" />
+        <activity android:name=".activity.MemberSendActivity" />
+        <activity android:name=".activity.GiftSendActivity" />
+        <activity android:name=".activity.TimetableSendActivity" />
+        <activity android:name=".activity.TravelPlanRoomActivity" />
+        <activity android:name=".activity.TravelPlanSendActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

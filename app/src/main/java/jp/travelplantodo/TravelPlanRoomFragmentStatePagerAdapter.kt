@@ -1,9 +1,10 @@
 package jp.travelplantodo
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import kotlinx.android.synthetic.main.activity_travel_plan_room.*
+import jp.travelplantodo.fragment.MessageFragment
 
 
 class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentStateAdapter(fm){
@@ -12,7 +13,7 @@ class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentSta
 
     var travelPlanId = ""
 
-    val fragments = listOf(HomeFragment(), MessageFragment(), MemberFragment(), GiftFragment())
+    val fragments = listOf(HomeFragment(), MessageFragment(), MemberFragment(), GiftFragment(),SettingFragment())
 
 
     override fun getItemCount(): Int {
@@ -20,21 +21,21 @@ class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentSta
     }
 
     override fun createFragment(position: Int): Fragment {
-//           HomeFragment().getPlanId(travelPlanId)
-//           MessageFragment().getPlanId(travelPlanId)
-//           MemberFragment().getPlanId(travelPlanId)
-
+//
+        Log.d("確認postion","${position}")
          when (position) {
             0 -> {
                 var fragment = HomeFragment()
                 fragment.getPlanId(travelPlanId)
                 return fragment
             }
+
             1 -> {
                 var fragment = MessageFragment()
                 fragment.getPlanId(travelPlanId)
                 return fragment
             }
+
             2 -> {
                 var fragment = MemberFragment()
                 fragment.getPlanId(travelPlanId)
@@ -46,6 +47,13 @@ class TravelPlanRoomFragmentStatePagerAdapter(fm: FragmentActivity): FragmentSta
                 fragment.getPlanId(travelPlanId)
                 return fragment
             }
+
+             4 -> {
+                 var fragment = SettingFragment()
+                 fragment.getPlanId(travelPlanId)
+                 return fragment
+             }
+
             else -> {
                 var fragment = HomeFragment()
                 fragment.getPlanId(travelPlanId)

@@ -1,5 +1,6 @@
-package jp.travelplantodo
+package jp.travelplantodo.activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import jp.travelplantodo.NameKEY
-import jp.travelplantodo.R
-import jp.travelplantodo.UsersPATH
+import jp.travelplantodo.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -63,26 +62,55 @@ class LoginActivity : AppCompatActivity() {
                 val user = mAuth.currentUser
                 val userRef = mDataBaseReference.collection(UsersPATH).document(user!!.uid)
 
+                val myId = randomString(10)
+
+                val myIdRef = mDataBaseReference.collection(IdPATH).document(myId)
+
                 if (mIsCreateAccount) {
                     // アカウント作成の時は表示名をFirebaseに保存する
                     val name = nameText.text.toString()
 
+                    val dataMyId = HashMap<String,String>()
+                    dataMyId["userUid"] = user!!.uid
+                    dataMyId["userName"] = name
+
                     val data = HashMap<String, String>()
                     data["name"] = name
+
+                    val userMyId = HashMap<String, String>()
+                    userMyId["myId"] = myId
+
+                    myIdRef.set(dataMyId)
                     userRef.set(data)
+                    userRef.collection(IdPATH).document(user!!.uid).set(userMyId)
+
                     // 表示名をPreferenceに保存する
-                    saveName(name)
+                    saveKeyValue(name, NameKEY)
+                    saveKeyValue(myId, MyIdKEY)
+
                 } else {
                     userRef.get().addOnSuccessListener { document ->
                         val data = document.data as Map<*, *>?
                         if (document != null) {
-                            saveName(data!!["name"] as String)
+                            saveKeyValue(data!!["name"] as String, NameKEY)
                             Log.d("確認", "DocumentSnaphot data: ${document.data}")
                         } else {
                             Log.d("確認", "No such document")
                         }
                     }
+
+                    userRef.collection(IdPATH).document(user!!.uid).get().addOnSuccessListener { document ->
+                        val data = document.data as Map<*, *>?
+                        if(document != null) {
+                            saveKeyValue(data!!["myId"] as String, MyIdKEY)
+                        }else {
+                            Log.d("確認", "No such document")
+                        }
+                    }
                 }
+
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
 
                 // プログレスバーを非表示にする
                 progressBar.visibility = View.GONE
@@ -157,14 +185,12 @@ class LoginActivity : AppCompatActivity() {
                     Snackbar.make(v, getString(R.string.login_error_message), Snackbar.LENGTH_LONG).show()
                 }
             }
-
         }
     }
     //アカウント作成
     private fun createAccount(email: String, password: String) {
         // プログレスバーを表示する
         progressBar.visibility = View.VISIBLE
-
 
         // アカウントを作成する
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(mCreateAccountListener)
@@ -179,13 +205,33 @@ class LoginActivity : AppCompatActivity() {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(mLoginListener)
     }
 
-    private fun saveName(name: String) {
+    private fun saveKeyValue(name: String,key: String) {
         // Preferenceに保存する
         val sp = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = sp.edit()
-        editor.putString(NameKEY, name)
+        editor.putString(key, name)
         editor.commit()
     }
+
+
+    private fun randomString(StrLength: Int): String {
+        val source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+        val len: Int = source.length
+
+        var num = 0 //事前にvar num の定義が残っている場合は、エラーがでるので、var を削除しましょう。
+
+        var randomString = ""
+        while (num < StrLength) {
+            val rand = (1..len-1).random()
+            var nextChar = source.substring(rand-1, rand)
+            randomString += nextChar
+            num++
+        }
+        return randomString
+    }
+
+
 
 
 }

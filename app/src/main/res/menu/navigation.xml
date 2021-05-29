@@ -5,19 +5,28 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:title="home" />
+        android:title="home"
+        android:icon="@drawable/home"/>
 
     <item
         android:id="@+id/navigation_message"
-        android:title="message" />
+        android:title="message"
+        android:icon="@drawable/message"/>
 
     <item
         android:id="@+id/navigation_member"
-        android:title="memeber" />
+        android:title="memeber"
+        android:icon="@drawable/member"/>
 
     <item
         android:id="@+id/navigation_gift"
-        android:title="gift" />
+        android:title="gift"
+        android:icon="@drawable/gift"/>
 
+    <item
+        android:id="@+id/navigation_setting"
+        android:title="setting"
+        android:icon="@drawable/setting"
+        />
 
 </menu>

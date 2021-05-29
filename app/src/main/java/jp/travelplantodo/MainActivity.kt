@@ -6,27 +6,32 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import jp.travelplantodo.activity.*
+import jp.travelplantodo.adapter.TravelPlanAdapter
+import jp.travelplantodo.model.TravelPlan
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 const val EXTRA_TRAVEL_PLAN_ID = "jp.travelplantodo.TravlPlan"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private lateinit var mDatabaseReference: FirebaseFirestore
     private lateinit var mTravelPlanArrayList: ArrayList<TravelPlan>
     private lateinit var mAdapter: TravelPlanAdapter
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))// ログイン済みのユーザーを取得する
+        setSupportActionBar(findViewById(R.id.toolbar))
+
+        // ログイン済みのユーザーを取得する
         val user = FirebaseAuth.getInstance().currentUser
 
         // ログインしていなければログイン画面に遷移させる
@@ -36,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         }
         //fabをクリックした時の処理
         fab.setOnClickListener { view ->
-            Log.d("ログイン確認","${user!!.uid}")
             if (user == null) {
                 // ログインしていなければログイン画面に遷移させる
                 val intent = Intent(applicationContext, LoginActivity::class.java)
@@ -52,10 +56,9 @@ class MainActivity : AppCompatActivity() {
         mDatabaseReference = FirebaseFirestore.getInstance()
         mAdapter = TravelPlanAdapter(this)
         mTravelPlanArrayList = ArrayList<TravelPlan>()
+        if (user != null) {getTravelPlanForFirebase(user.uid)}
         listView.adapter = mAdapter
         mAdapter.setTravelPlanArrayList(mTravelPlanArrayList)
-
-        if (user != null) {getTravelPlanForFirebase(user.uid)}
 
         //listviewをクリックした際の画面遷移
         listView.setOnItemClickListener { parent, _, position, _ ->
@@ -66,6 +69,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.app_name, R.string.app_name)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -86,6 +94,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     private fun getTravelPlanForFirebase(uid: String) {
 
         mDatabaseReference = FirebaseFirestore.getInstance()
@@ -104,14 +117,21 @@ class MainActivity : AppCompatActivity() {
                         mDatabaseReference.collection(TravelPlanIndexPath).document(travelPlanId).get().addOnSuccessListener { document ->
                             if (document != null) {
                                 val data = document.data as Map<*, *>?
-                                val title = data!!["title"] as String
-                                val body = data!!["body"] as String
-                                val name = data!!["name"] as String
-                                val travelPlanId = data!!["travelPlanId"] as String
-                                val travelPlan = TravelPlan(title ,body,name,travelPlanId)
-                                mTravelPlanArrayList.add(travelPlan)
+                                if(data != null) {
+                                    Log.d("確認main", "${data}")
+                                    var image = ""
+                                    val title = data!!["title"] as String
+                                    val body = data!!["body"] as String
+                                    val name = data!!["name"] as String
+                                    val travelPlanId = data!!["travelPlanId"] as String
+                                    if(data["image"] != null) {
+                                        image = data["image"] as String
+                                    }
+                                    val travelPlan = TravelPlan(title, body, name, travelPlanId, image)
+                                    mTravelPlanArrayList.add(travelPlan)
 
-                                mAdapter.notifyDataSetChanged()
+                                    mAdapter.notifyDataSetChanged()
+                                }
                             }
                         }
                             .addOnFailureListener { exception ->
@@ -124,6 +144,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        val user = FirebaseAuth.getInstance().currentUser
+
+        if (id == R.id.nav_addingApplication) {
+            toolbar.title = "一覧"
+            val intent = Intent(applicationContext, MemberAddingActivity::class.java)
+            startActivity(intent)
+
+        } else if (id == R.id.nav_setting) {
+            toolbar.title = "一覧"
+            if (user != null) {
+                val intent = Intent(applicationContext, SettingActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return true
     }
 
 }

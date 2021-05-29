@@ -1,17 +1,24 @@
-package jp.travelplantodo
+package jp.travelplantodo.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import jp.travelplantodo.*
+import jp.travelplantodo.model.Member
 
 
 class MemberAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     // 取得したJsonデータを解析し、Shop型オブジェクトとして生成したものを格納するリスト
     private val items = mutableListOf<Member>()
+
+    var travelPlanId = ""
 
     // 表示リスト更新時に呼び出すメソッド
     fun refresh(list: List<Member>) {
@@ -62,4 +69,39 @@ class MemberAdapter(private val context: Context): RecyclerView.Adapter<Recycler
         }
     }
 
+    fun tableDelete(position: Int) {
+        val data = items[position]
+
+        Log.d("確認Datauid", "${data.uid}")
+        Log.d("確認FirebaseUid","${FirebaseAuth.getInstance().currentUser?.uid}")
+        Log.d("確認travelPlanIdAdapter","${travelPlanId}")
+
+
+        if(data.uid != FirebaseAuth.getInstance().currentUser?.uid) {
+
+            val builder = AlertDialog.Builder(context)
+
+            builder.setTitle("削除")
+            builder.setMessage("削除しますか")
+
+            builder.setPositiveButton("OK") { _, _ ->
+
+
+                FirebaseFirestore.getInstance().collection(TravelPlanIndexPath)
+                    .document(travelPlanId).collection(
+                        TravelRoomMemberPATH
+                    ).document(data.uid).delete()
+
+                FirebaseFirestore.getInstance().collection(UsersPATH).document(data.uid)
+                    .collection(
+                        TravelPlanMemberPATH
+                    ).document(travelPlanId).delete()
+            }
+
+
+            builder.setNegativeButton("CANCEL", null)
+
+            builder.create().show()
+        }
+    }
 }

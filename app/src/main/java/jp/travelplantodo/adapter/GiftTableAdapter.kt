@@ -1,13 +1,18 @@
-package jp.travelplantodoimport
+package jp.travelplantodo.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import jp.travelplantodo.GiftTable
+import com.google.firebase.firestore.FirebaseFirestore
+import jp.travelplantodo.GifttablePATH
+import jp.travelplantodo.model.GiftTable
 import jp.travelplantodo.R
+import jp.travelplantodo.TimetablePATH
+import jp.travelplantodo.TravelPlanIndexPath
 
 class GiftTableAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     // 取得したJsonデータを解析し、Shop型オブジェクトとして生成したものを格納するリスト
@@ -60,5 +65,26 @@ class GiftTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
                 giftName.text = ""
             }
         }
+    }
+
+    fun tableDelete(position: Int) {
+        val data = items[position]
+
+
+        val builder = AlertDialog.Builder(context)
+
+        builder.setTitle("削除")
+        builder.setMessage("削除しますか")
+
+        builder.setPositiveButton("OK"){_, _ ->
+
+            FirebaseFirestore.getInstance().collection(TravelPlanIndexPath).document(data.groupId).collection(
+                GifttablePATH
+            ).document(data.id).delete()
+        }
+
+        builder.setNegativeButton("CANCEL", null)
+
+        builder.create().show()
     }
 }

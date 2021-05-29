@@ -1,17 +1,24 @@
-package jp.travelplantodoimport
+package jp.travelplantodo.adapter
 
+import android.app.AlarmManager
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import jp.travelplantodo.R
-import jp.travelplantodo.TimeTable
+import jp.travelplantodo.TimetablePATH
+import jp.travelplantodo.TravelPlanIndexPath
+import jp.travelplantodo.model.TimeTable
+import kotlinx.android.synthetic.main.list_home.*
 
 class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     // 取得したJsonデータを解析し、Shop型オブジェクトとして生成したものを格納するリスト
@@ -20,10 +27,10 @@ class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
     // 表示リスト更新時に呼び出すメソッド
     fun refresh(list: List<TimeTable>) {
         items.apply {
-           clear() // items を 空にする
-           addAll(list) // itemsにlistを全て追加する
+            clear() // items を 空にする
+            addAll(list) // itemsにlistを全て追加する
         }
-       notifyDataSetChanged() // recyclerViewを再描画させる
+        notifyDataSetChanged() // recyclerViewを再描画させる
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -33,7 +40,6 @@ class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
 
     // ViewHolderを継承したApiItemViewHolderクラスの定義
     class HomeViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val rootView: RelativeLayout = view.findViewById(R.id.listHome)
         // レイアウトファイルからidがnameTextViewのCTextViewオブジェクトを取得し、代入
         val dateTimeView: TextView = view.findViewById(R.id.dateTimeView)
         val bodyTextHomeView: TextView = view.findViewById(R.id.bodyTextHomeView)
@@ -53,22 +59,12 @@ class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
             Log.d("postion","${position}")
 
         }
-        Log.d("postion2","${position}")
-
-
-        // {
-        // 別のViewHolderをバインドさせることが可能となる
-        // }
-
     }
 
     private fun updateItemViewHolder(holder: HomeViewHolder, position: Int) {
         // 生成されたViewHolderの位置を指定し、オブジェクトを代入
-        Log.d("オブジェクト確認adapter","${items}")
         val data = items[position]
-        Log.d("オブジェクト確認data.time","${data.time}")
-        Log.d("オブジェクト確認data.body","${data.body}")
-            holder.apply {
+        holder.apply {
             // dateTimeViewのtextプロパティに代入されたオブジェクトのnameプロパティを代入
             if(data.time != null && data.body != null) {
                 dateTimeView.text = data.time
@@ -80,4 +76,24 @@ class HomeTableAdapter(private val context: Context): RecyclerView.Adapter<Recyc
             }
         }
     }
+
+    fun tableDelete(position: Int) {
+        val data = items[position]
+        // ダイアログを表示する
+        val builder = AlertDialog.Builder(context)
+
+        builder.setTitle("削除")
+        builder.setMessage(data.body + "を削除しますか")
+
+        builder.setPositiveButton("OK"){_, _ ->
+
+            FirebaseFirestore.getInstance().collection(TravelPlanIndexPath).document(data.groupId).collection(
+                TimetablePATH).document(data.id).delete()
+        }
+
+        builder.setNegativeButton("CANCEL", {_, _ -> null})
+
+        builder.create().show()
+    }
+
 }

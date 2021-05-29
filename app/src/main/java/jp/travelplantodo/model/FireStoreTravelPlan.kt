@@ -1,4 +1,4 @@
-package jp.travelplantodo
+package jp.travelplantodo.model
 
 import java.util.*
 

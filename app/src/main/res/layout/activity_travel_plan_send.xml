@@ -8,15 +8,25 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context=".TravelPlanSendActivity">
+    tools:context=".activity.TravelPlanSendActivity">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/travelSendImageView"
+        android:background="#d3d3d3"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_label"
         android:id="@+id/titleTextView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_below="@+id/travelSendImageView"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -53,7 +63,8 @@
         android:id="@+id/sendButton"
         android:layout_below="@+id/bodyText"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:background="@color/colorAccent"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -63,7 +74,5 @@
         android:layout_below="@+id/sendButton"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
-
-
 
 </RelativeLayout>
