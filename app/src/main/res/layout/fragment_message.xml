@@ -2,46 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/messageFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/messageFragment">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"/>
+            android:layout_weight="40" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            >
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <EditText
                 android:id="@+id/messageSendText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:inputType="textMultiLine"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="6dp"
                 android:layout_weight="1"
-                />
+                android:textSize="14sp"
+                android:background="#DFDFDF"
+                android:inputType="textMultiLine" />
 
             <Button
                 android:id="@+id/messageSendButton"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:background="#FFFFFF"
-                android:drawableBottom="@drawable/submit" />
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorOrange"
+                android:drawableBottom="@drawable/submit"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -49,12 +49,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:maxWidth="150dp"
         android:background="@drawable/message_chat"
         android:gravity="left"
         android:padding="10dp"
         android:text="メッセージ"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
 
 </LinearLayout>
